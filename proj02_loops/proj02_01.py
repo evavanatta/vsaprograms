@@ -17,3 +17,11 @@
 # Enter a number to sum, or 0 to indicate you are finished: 10
 # Enter a number to sum, or 0 to indicate you are finished: 0
 #The sum of your numbers is: 21
+
+user_input = int(raw_input("Please state a number."))
+
+sum = 0 + int(user_input)
+while int(user_input) > 0:
+    print "Your sum is " + str(sum)
+    user_input=raw_input("Please state a number, enter 0 when finished.")
+    sum= sum + int(user_input)
