@@ -46,3 +46,43 @@ def choose_word(wordlist):
 wordlist = load_words()
 
 # your code begins here!
+
+word = choose_word(wordlist)
+
+list = []
+for letter in word:
+    list.append(letter)
+
+length = int(len(list))
+
+blank = []
+guesses = 8
+counter1 = 0
+counter2 = 0
+
+alpha = string.lowercase
+print word
+
+print "Welcome to Hangman! My word is", length, "letters long!"
+while guesses > 0:
+    print "Letters available:", alpha
+    print "You have", guesses, "guesses left."
+    while counter1 < length:
+        blank.append("_")
+        counter1 = counter1 + 1
+    print blank
+    user_input = raw_input("Guess a letter:")
+    alpha = alpha.replace(user_input, "")
+    counter2 = 0
+    for item in word:
+
+        if item == user_input:
+            blank[counter2] = user_input
+
+            print "You got it right!"
+        counter2 = counter2 + 1
+
+
+
+
+
