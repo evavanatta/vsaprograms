@@ -20,6 +20,36 @@
 
 # Until the user guesses the number.
 
+counter = 0
+guesses = 0
+cows = 0
+counter1 = 1
+counter2 = 2
+counter3 = 3
+counter4 = 4
+bulls = 0
 
 import random
 number = str(random.randint(1000,9999)) #random 4 digit number
+list = []
+for letter in number:
+    list.append(letter)
+print number
+user_input = raw_input("Guess a 4-digit number or type exit to leave: ")
+user_list = []
+for letter in user_input:
+    user_list.append(letter)
+while user_input:
+    counter = 0
+    user_input = raw_input("Guess a 4-digit number or type exit to leave: ")
+    if list[counter] == user_list[counter]:
+        cows = cows + 1
+        counter = counter + 1
+    if letter in user_list == letter in list:
+        bulls = bulls + 1
+        print "you have", int(cows), "cows and", int(bulls), "bulls."
+    if user_list == list:
+        cows = 4
+        print "you have won!"
+
+
