@@ -9,6 +9,8 @@ import string
 VOWELS = 'aeiou'
 CONSONANTS = 'bcdfghjklmnpqrstvwxyz'
 HAND_SIZE = 7
+score = 0
+n = 7
 
 SCRABBLE_LETTER_VALUES = {
     'a': 1, 'b': 3, 'c': 3, 'd': 2, 'e': 1, 'f': 4, 'g': 2, 'h': 4, 'i': 1, 'j': 8, 'k':
@@ -25,7 +27,7 @@ WORDLIST_FILENAME = "words.txt"
 def load_words():
     """
     Returns a list of valid words. Words are strings of lowercase letters.
-    
+
     Depending on the size of the word list, this function may
     take a while to finish.
     """
@@ -62,21 +64,20 @@ def get_frequency_dict(sequence):
 # Problem #1: Scoring a word
 #
 def get_word_score(word, n):
-    """
-    Returns the score for a word. Assumes the word is a
-    valid word.
+    score = 0
+    letters = 0
+    nn = n
+    word.lower()
+    for counter in word:
+        score = score + SCRABBLE_LETTER_VALUES.get(counter, 0)
+        letters = letters + 1
+        n = n - 1
+    score = score * letters
+    if letters == nn:
+        score = score + 50
+    return score
 
-	The score for a word is the sum of the points for letters
-	in the word multiplied by the length of the word, plus 50
-	points if all n letters are used on the first go.
-
-	Letters are scored as in Scrabble; A is worth 1, B is
-	worth 3, C is worth 3, D is worth 2, E is worth 1, and so on.
-
-    word: string (lowercase letters)
-    returns: int >= 0
-    """
-    # TO DO...
+# TO DO...
     
 #
 # Make sure you understand how this function works and what it does!
@@ -130,27 +131,37 @@ def deal_hand(n):
 # Problem #2: Update a hand by removing letters
 #
 def update_hand(hand, word):
-    """
-    Assumes that 'hand' has all the letters in word.
-	In other words, this assumes that however many times
-	a letter appears in 'word', 'hand' has at least as
-	many of that letter in it. 
+    hand2 = hand.copy()
+    for let in word:
+        if let in hand2:
+            hand2[let] = hand2[let] - 1
+    return hand2
 
-    Updates the hand: uses up the letters in the given word
-    and returns the new hand, without those letters in it.
 
-    Has no side effects: does not modify hand.
 
-    word: string
-    hand: dictionary (string -> int)    
-    returns: dictionary (string -> int)
-    """
+
+
     # TO DO ...
 
 #
 # Problem #3: Test word validity
 #
 def is_valid_word(word, hand, word_list):
+    hand2 = hand
+    if word in word_list:
+        for l in word:
+            if l in hand2 and hand2[l] != 0:
+                hand2[l] = hand2[l] - 1
+            else:
+                return False
+        return True
+    else:
+        return False
+
+
+
+
+
     """
     Returns True if word is in the word_list and is entirely
     composed of letters in the hand. Otherwise, returns False.
@@ -172,6 +183,27 @@ def calculate_handlen(hand):
 # Problem #4: Playing a hand
 #
 def play_hand(hand, word_list):
+    tscore = 0
+    while True:
+        print "Current Hand:",
+        display_hand(hand)
+        word = raw_input("Enter a word, or a '.' to indicate that you are finished: ")
+        if word == ".":
+            print
+            print "Total Score: " + str(tscore) + " points."
+            return tscore
+        else:
+            if is_valid_word(word, hand, word_list) == True:
+                tscore = get_word_score(word, n) + tscore
+                update_hand(hand, word)
+                print str(word), "earned", str(get_word_score(word, n)), "points! Total", str(tscore) + "."
+                print
+            else:
+                print "Invalid Word"
+                print
+
+
+
 
     """
     Allows the user to play the given hand, as follows:
@@ -206,6 +238,23 @@ def play_hand(hand, word_list):
 # Make sure you understand how this code works!
 # 
 def play_game(word_list):
+
+    while True:
+        q = raw_input("New, Retry, or Exit? (n, r, e) ")
+        if q == "n":
+            hand = deal_hand(HAND_SIZE)
+            phand = hand.copy()
+            play_hand(phand, word_list)
+        elif q == "r":
+            phand = hand.copy()
+            play_hand(phand, word_list)
+        elif q == "e":
+            break
+        else:
+            print "Please input a valid command."
+            print
+
+
     """
     Allow the user to play an arbitrary number of hands.
 
@@ -228,3 +277,4 @@ def play_game(word_list):
 if __name__ == '__main__':
     word_list = load_words()
     play_game(word_list)
+

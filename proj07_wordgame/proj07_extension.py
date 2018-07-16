@@ -6,28 +6,67 @@
 from proj07 import *
 import time
 from perm import *
-
+word_list = load_words()
 
 #
 #
 # Problem #6A: Computer chooses a word
 #
 #
-def comp_choose_word(hand, word_list):
-    """
-	Given a hand and a word_dict, find the word that gives the maximum value score, 
-	and return it. This word should be calculated by considering all possible 
-	permutations of lengths 1 to HAND_SIZE.
 
-    hand: dictionary (string -> int)
-    word_list: list (string)
-    """
-    # TO DO...
 
+
+def comp_choose_word(hand, word_list, difficulty):
+    counter = 0
+    cword = ""
+    get_perms(hand, n)
+    for word in word_list:
+        counter = 0
+        hand2 = hand.copy()
+        for l in word:
+            if difficulty == 1:
+                if len(word) >= 5:
+                    break
+            elif difficulty == 2:
+                if len(word) >= 6:
+                    break
+            if l in hand2 and hand2[l] != 0:
+                hand2[l] = hand2[l] - 1
+                counter = counter + 1
+            else:
+                break
+        if counter == len(word):
+            if len(word) > len(cword):
+                cword = word
+    if cword != "":
+        return cword
+    else:
+        return "."
 #
 # Problem #6B: Computer plays a hand
 #
-def comp_play_hand(hand, word_list):
+def comp_play_hand(hand, word_list, difficulty):
+
+    tcscore = 0
+    while True:
+        print "Current Hand:",
+        display_hand(hand)
+        comword = comp_choose_word(hand, word_list, difficulty)
+        print comword
+        if comword == ".":
+            print
+            print "Total Score: " + str(tcscore) + " points."
+            return tcscore
+        else:
+            if is_valid_word(comword, hand, word_list) == True:
+                tcscore = get_word_score(comword, n) + tcscore
+                update_hand(hand, comword)
+                print str(comword), "earned", str(get_word_score(comword, n)), "points! Total", str(tcscore) + "."
+                print
+            else:
+                print "Invalid Word"
+                print
+
     """
      Allows the computer to play the given hand, as follows:
 
@@ -54,6 +93,40 @@ def comp_play_hand(hand, word_list):
 #
 #
 def play_game(word_list):
+
+    while True:
+        q = raw_input("New, Retry, or Exit? (n, r, e) ")
+        if q == "n":
+            hand = deal_hand(HAND_SIZE)
+            phand = hand.copy()
+            qu = raw_input("Computer or You?")
+            if qu == "u":
+                play_hand(phand, word_list)
+            if qu == "c":
+                difficulty = int(raw_input("Enter the difficulty you want(1=easy, 2=medium, 3=hard): "))
+                comp_play_hand(phand, word_list, difficulty)
+            else:
+                print "Please input a valid command."
+                print
+        elif q == "r":
+            phand = hand.copy()
+            qu = raw_input("Computer or You?")
+            if qu == "u":
+                play_hand(phand, word_list)
+            if qu == "c":
+                difficulty = int(raw_input("Enter the difficulty you want(1=easy, 2=medium, 3=hard): "))
+                comp_play_hand(phand, word_list, difficulty)
+            else:
+                print "Please input a valid command."
+                print
+        elif q == "e":
+            break
+        else:
+            print "Please input a valid command."
+            print
+
+
+
     """Allow the user to play an arbitrary number of hands.
 
     1) Asks the user to input 'n' or 'r' or 'e'.
@@ -76,9 +149,10 @@ def play_game(word_list):
         
 #
 # Build data structures used for entire session and play game
-#
-if __name__ == '__main__':
-    word_list = load_words()
-    play_game(word_list)
+# #
+# if __name__ == '__main__':
+#     word_list = load_words()
+#     play_game(word_list)
 
     
+play_game(word_list)
