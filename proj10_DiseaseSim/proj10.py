@@ -6,10 +6,6 @@
 # import pylab
 import random
 
-''' 
-Begin helper code
-'''
-
 
 class NoChildException(Exception):
     """
@@ -20,14 +16,6 @@ class NoChildException(Exception):
     """
 
 
-'''
-End helper code
-'''
-
-
-#
-# PROBLEM 1
-#
 class SimpleVirus(object):
     """
     Representation of a simple virus (does not model drug effects/resistance).
@@ -42,8 +30,6 @@ class SimpleVirus(object):
         clearProb: Maximum clearance probability (a float between 0-1).
         """
 
-        # TODO
-
         self.maxBirthProb = maxBirthProb
         self.clearProb = clearProb
 
@@ -55,7 +41,6 @@ class SimpleVirus(object):
         False.
         """
 
-        # TODO
         number = random.random()
         if number <= self.clearProb:
             return True
@@ -82,14 +67,13 @@ class SimpleVirus(object):
         NoChildException if this virus particle does not reproduce.               
         """
 
-        # TODO
         self.popDensity = popDensity
         num = random.random()
         probability = self.maxBirthProb * (1 - popDensity)
-        if num <= probability:
+        if num < probability:
             return SimpleVirus(self.maxBirthProb, self.clearProb)
         else:
-            return NoChildException
+            raise NoChildException
 
 
 class SimplePatient(object):
@@ -141,12 +125,12 @@ class SimplePatient(object):
         """
 
         # TODO
-        for i in self.viruses:
-            if i.doesCLear():
-                self.viruses.remove()
-            popDensity = float(self.getTotalPop/self.maxPop)
+        for virus in self.viruses:
+            if virus.doesClear():
+                self.viruses.remove(virus)
+            popDensity = float((int(self.getTotalPop()))/float(int(self.maxPop)))
             try:
-                self.viruses.append(i.reproduce(popDensity))
+                self.viruses.append(virus.reproduce(popDensity))
             except NoChildException:
                 continue
         return len(self.viruses)
@@ -156,6 +140,7 @@ class SimplePatient(object):
 # PROBLEM 2
 #
 def simulationWithoutDrug():
+
     """
     Run the simulation and plot the graph for problem 2 (no drugs are used,
     viruses do not have any drug resistance).    
@@ -164,8 +149,19 @@ def simulationWithoutDrug():
     """
 
     # TODO
-    for x in range(1, 100):
-       viruses.append(SimpleVirus(0.1, 0.05))
-       patient = SimplePatient(viruses, 1000)
-    for y in range(300):
+    viruses = []
+    viruses2 = []
+    viruses3 = []
+    for x in range(0, 100):
+        viruses.append(SimpleVirus(0.1, 0.05))
+    patient = SimplePatient(viruses, 1000)
+    for y in range(0, 300):
+        viruses2.append(len(patient.viruses))
         patient.update()
+        viruses3.append(y)
+    print viruses2
+    print viruses3
+
+simulationWithoutDrug()
+
+
