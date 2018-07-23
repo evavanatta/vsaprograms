@@ -2,9 +2,9 @@
 # Name:
 # Date:
 
-import numpy
+# import numpy
+# import pylab
 import random
-import pylab
 
 ''' 
 Begin helper code
@@ -34,6 +34,7 @@ class SimpleVirus(object):
     """
 
     def __init__(self, maxBirthProb, clearProb):
+
         """
         Initialize a SimpleVirus instance, saves all parameters as attributes
         of the instance.        
@@ -43,7 +44,11 @@ class SimpleVirus(object):
 
         # TODO
 
+        self.maxBirthProb = maxBirthProb
+        self.clearProb = clearProb
+
     def doesClear(self):
+
         """ Stochastically determines whether this virus particle is cleared from the
         patient's body at a time step. 
         returns: True with probability self.clearProb and otherwise returns
@@ -51,6 +56,11 @@ class SimpleVirus(object):
         """
 
         # TODO
+        number = random.random()
+        if number <= self.clearProb:
+            return True
+        else:
+            return False
 
     def reproduce(self, popDensity):
         """
@@ -73,6 +83,13 @@ class SimpleVirus(object):
         """
 
         # TODO
+        self.popDensity = popDensity
+        num = random.random()
+        probability = self.maxBirthProb * (1 - popDensity)
+        if num <= probability:
+            return SimpleVirus(self.maxBirthProb, self.clearProb)
+        else:
+            return NoChildException
 
 
 class SimplePatient(object):
@@ -94,6 +111,8 @@ class SimplePatient(object):
         """
 
         # TODO
+        self.viruses = viruses
+        self.maxPop = maxPop
 
     def getTotalPop(self):
         """
@@ -102,13 +121,15 @@ class SimplePatient(object):
         """
 
         # TODO
+        return len(self.viruses)
 
     def update(self):
+
         """
         Update the state of the virus population in this patient for a single
         time step. update() should execute the following steps in this order:
 
-        - Determine whether each virus particle survives and updates the list
+        - Determine whether each virus survives and updates the list
         of virus particles accordingly.   
         - The current population density is calculated. This population density
           value is used until the next call to update() 
@@ -120,6 +141,15 @@ class SimplePatient(object):
         """
 
         # TODO
+        for i in self.viruses:
+            if i.doesCLear():
+                self.viruses.remove()
+            popDensity = float(self.getTotalPop/self.maxPop)
+            try:
+                self.viruses.append(i.reproduce(popDensity))
+            except NoChildException:
+                continue
+        return len(self.viruses)
 
 
 #
@@ -134,3 +164,8 @@ def simulationWithoutDrug():
     """
 
     # TODO
+    for x in range(1, 100):
+       viruses.append(SimpleVirus(0.1, 0.05))
+       patient = SimplePatient(viruses, 1000)
+    for y in range(300):
+        patient.update()
