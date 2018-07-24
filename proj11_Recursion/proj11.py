@@ -39,13 +39,17 @@ def member(target, set):
 # addStar("hello") --> "h*e*l*l*o"
 # addStar("abc") --> "a*b*c"
 # addStar("ab") --> "a*b"
-def add_star(str):
-    if str == 0:
-        return 0
-    elif str == 1:
-        return 0
+
+
+def addStar(str):
+    if len(str) == 0:
+        return str
+    if len(str) == 1:
+        return str
+    if len(str) == 2:
+        return str[0] + "*" + str[1]
     else:
-        
+        return str[0] + "*" + addStar(str[1:])
 
 
 

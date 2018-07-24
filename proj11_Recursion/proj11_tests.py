@@ -55,7 +55,7 @@ if member_pass:
     print "member PASS\n"
 
 
-"""
+
 ########### addStar ############### 
 
 # addStar("hello") --> "h*e*l*l*o"
@@ -77,7 +77,7 @@ for key in strs:
 if strs_pass:
     print "addStar PASS\n"
 
-
+"""
 ########### harmonicSum ############### 
 
 hs_pass = True
