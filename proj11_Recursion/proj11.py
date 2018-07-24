@@ -1,25 +1,35 @@
 # proj11: Recursion Programming Lab
 
-# Name:
-# Date:
+# Name: eva vanatta
+# Date: july 24th
 
 # Tests are created for you in proj11_test.py. Uncomment tests as you need them.
 # Otherwise, you could call a function that you haven't defined yet, and you would get an error.
-#
+
 # sumList(lst);
 # Task: compute the sum of a list of integers
-# Pre: lst is an list of 'size' integers, size is nonnegative
+# Pre: lst is an list of 'size' integers, size is non negative
 # Post: the sum of lst[0]...lst[size-1] is returned
 # Challenge: This function could be done by dividing the list in half and performing recursive calls on each half (as opposed to just shrinking the size by one each time).
-
+def sumList(lst):
+    if len(lst) == 0:
+        return 0
+    else:
+        return lst[0] + sumList(lst[1:])
 
 
 # member(target, set);
 # Task: determine if target is in the set
-# Pre: set is an list of 'size' integers, size is nonnegative
+# Pre: set is an list of 'size' integers, size is non negative
 # Post: true is returned if target is in the set, else false; the set is unchanged
-
-
+def member(target, set):
+    if len(set) == 0:
+        return False
+    elif set[0] == target:
+        return True
+    else:
+        set = set[1:]
+        return member(target, set)
 
 # addStar(str);
 # Given a string, compute recursively a new string where all the adjacent characters are now separated by a "*".
@@ -29,6 +39,13 @@
 # addStar("hello") --> "h*e*l*l*o"
 # addStar("abc") --> "a*b*c"
 # addStar("ab") --> "a*b"
+def add_star(str):
+    if str == 0:
+        return 0
+    elif str == 1:
+        return 0
+    else:
+        
 
 
 
@@ -117,11 +134,11 @@
 # Post: the list elements in the segment a[lb..ub] have been set to value
 # Challenge: This function must be done by dividing the list segment in half and performing recursive calls on each half (as opposed to just shrinking the array bound by one each time)
 
-"""
-Extensions:
-Here are some more to try on your own! These do not come with tests...
-How would you write tests for these functions?
-"""
+# """
+# Extensions:
+# Here are some more to try on your own! These do not come with tests...
+# How would you write tests for these functions?
+# """
 
 # binomialCoeff (n, r);
 # Task: Compute the Binomial Coefficient using Pascal's Triangle.
@@ -164,3 +181,5 @@ How would you write tests for these functions?
 # moveXs("xxre") --> "rexx"
 # moveXs("xxhixx") --> "hixxxx"
 # moveXs("xhixhix") --> "hihixxx"
+
+

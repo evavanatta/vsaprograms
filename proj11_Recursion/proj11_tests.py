@@ -1,15 +1,15 @@
 ## proj11: Tests
 
-from proj11 import *
-from fractions import gcd
+import proj11
+# from fractions import gcd
 
 ## Uncomment tests as you need them!
 
-"""
-########### sumList ############### 
+
+########### sumList ###############
 
 def sumList_test(lst):
-    if sumList(lst) == sum(lst):
+    if proj11.sumList(lst) == sum(lst):
         return True
 
 sumList_pass = True
@@ -24,6 +24,8 @@ for lst in lists:
 if sumList_pass:
     print "sumList PASS\n"
 
+
+
 ########### member ############### 
 
 member_pass = True
@@ -32,13 +34,13 @@ true_sets = [[1], [1, 2], [2, 3, 4, 1, 2], [2, 1, 3, 4], [2, 1]]
 false_sets = [[], [2], [3, 5], [3, 5, 6], [3, 5, 6, 8, 0]]
 
 for set in true_sets:
-    if not member(1, set):
+    if not proj11.member(1, set):
         print("member failed on target: 1, set: "),
         print set
         member_pass = False
         break
 for set in false_sets:
-    if member(1, set):
+    if proj11.member(1, set):
         print("member failed on target: 1, set: "),
         print set
         member_pass = False
@@ -52,6 +54,8 @@ if true_sets != [[1], [1, 2], [2, 3, 4, 1, 2], [2, 1, 3, 4], [2, 1]] or \
 if member_pass:
     print "member PASS\n"
 
+
+"""
 ########### addStar ############### 
 
 # addStar("hello") --> "h*e*l*l*o"
